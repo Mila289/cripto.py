@@ -1,7 +1,10 @@
 # "Изучение API CoinGecko"
 # "Создание графического интерфейса пользователя"
 import tkinter as tk
+from encodings.punycode import selective_find
 from tkinter import ttk, Label
+import requests
+from bottle import response
 
 
 class CryptoApp:
@@ -30,6 +33,22 @@ class CryptoApp:
 
 # "Реализация получения курса криптовалюты"
     def get_crypto_price(self):
+        crypto_id = self.crypto_var.get().lower()
+        currency = 'usd'
+        try:
+            response = requests.get(f"https://api.coingecko.com/api/v3/simple/price?ids={crypto_id}&vs_currencies={currency}")
+            data = response.json()
+        if crypto_id in data and currency in data[crypto_id]:
+           price=data[crypto_id][currency]
+           self.result_text.delete(1.0,tk.END)
+           self.result_text.insert(tk.END, f"{crypto_id}:{price}")
+        else:
+           self.result_text.delete(1.0, tk.END)
+           self.result_text.insert(tk.END, "Ошибка при получении данных")
+    except requests.exceptions.RequestException as e:
+    self.result_text.delete(1.0, tk.END)
+    self.result_text.insert(tk.END, f"Произошла ошибка: {str(e)}")
+
 
          root=tk.Tk()
          app=CryptoApp(root)
