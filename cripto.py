@@ -1,10 +1,9 @@
 # "Изучение API CoinGecko"
 # "Создание графического интерфейса пользователя"
+
 import tkinter as tk
-from encodings.punycode import selective_find
-from tkinter import ttk, Label
+from tkinter import ttk
 import requests
-from bottle import response
 
 
 class CryptoApp:
@@ -14,10 +13,12 @@ class CryptoApp:
 # "Создание выпадающего списка для выбора криптовалюты"
 
         self.crypto_var = tk.StringVar()
-        crypto_list = ['bicoin', 'ethereum', 'ripple', 'litecoin','cardano']
+        crypto_list = ['bitcoin', 'ethereum', 'ripple', 'litecoin','cardano']
         self.crypto_menu = ttk.Combobox(master, textvariable=self.crypto_var)
         self.crypto_menu['values'] = crypto_list
         self.crypto_menu.pack(pady=10)
+
+
         self.currency_var = tk.StringVar()
         currency_list = ['usd', 'eur', 'gbp']
         self.currency_menu = ttk.Combobox(master, textvariable=self.currency_var)
@@ -43,14 +44,14 @@ class CryptoApp:
         try:
             response = requests.get(f"https://api.coingecko.com/api/v3/simple/price?ids={crypto_id}&vs_currencies={currency}")
             data = response.json()
-        if crypto_id in data and currency in data[crypto_id]:
-           price=data[crypto_id][currency]
-           self.result_text.delete(1.0,tk.END)
-           self.result_text.insert(tk.END, f"{crypto_id} в {currency}:{price}")
-        else:
-           self.show_error_message("Не удалось получить данные о курсе.")
-    except requests.exceptions.RequestException as e:
-      self.show_error_message(f"Произошла ошибка: {str(e)}")
+            if crypto_id in data and currency in data[crypto_id]:
+                price=data[crypto_id][currency]
+                self.result_text.delete(1.0,tk.END)
+                self.result_text.insert(tk.END, f"{crypto_id} в {currency}:{price}")
+            else:
+                self.show_error_message("Не удалось получить данные о курсе.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Произошла ошибка: {str(e)}")
 
 
     def show_error_message(self, message):
@@ -62,9 +63,11 @@ class CryptoApp:
         close_button.pack()
 
 
-         root=tk.Tk()
-         app=CryptoApp(root)
-         root.mainloop()
+root=tk.Tk()
+app=CryptoApp(root)
+root.mainloop()
+
+
 
 
 
