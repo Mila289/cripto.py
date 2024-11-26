@@ -24,6 +24,10 @@ class CryptoApp:
         self.result_label = ttk.Label(master, text="Результат:")
         self.result_label.pack(pady=10)
 
+# "Создание поля для вывода результата"
+        self.result_text = tk.Text(master, height=1, width=20)
+        self.result_text.pack()
+
 
 
 
