@@ -18,6 +18,11 @@ class CryptoApp:
         self.crypto_menu = ttk.Combobox(master, textvariable=self.crypto_var)
         self.crypto_menu['values'] = crypto_list
         self.crypto_menu.pack(pady=10)
+        self.currency_var = tk.StringVar()
+        currency_list = ['usd', 'eur', 'gbp']
+        self.currency_menu = ttk.Combobox(master, textvariable=self.currency_var)
+        self.currency_menu['values'] = currency_list
+        self.currency_menu.pack(pady=5)
 
 # "Создание кнопки для отправки запроса"
         self.reques_button=ttk.Button(master, text="Получить курс", command=self.get_crypto_price)
@@ -34,20 +39,18 @@ class CryptoApp:
 # "Реализация получения курса криптовалюты"
     def get_crypto_price(self):
         crypto_id = self.crypto_var.get().lower()
-        currency = 'usd'
+        currency = self.currency_var.get().lower()
         try:
             response = requests.get(f"https://api.coingecko.com/api/v3/simple/price?ids={crypto_id}&vs_currencies={currency}")
             data = response.json()
         if crypto_id in data and currency in data[crypto_id]:
            price=data[crypto_id][currency]
            self.result_text.delete(1.0,tk.END)
-           self.result_text.insert(tk.END, f"{crypto_id}:{price}")
+           self.result_text.insert(tk.END, f"{crypto_id} в {currency}:{price}")
         else:
-           self.result_text.delete(1.0, tk.END)
-           self.result_text.insert(tk.END, "Ошибка при получении данных")
+           self.show_error_message("Не удалось получить данные о курсе.")
     except requests.exceptions.RequestException as e:
-      self.result_text.delete(1.0, tk.END)
-      self.result_text.insert(tk.END, f"Произошла ошибка: {str(e)}")
+      self.show_error_message(f"Произошла ошибка: {str(e)}")
 
 
     def show_error_message(self, message):
