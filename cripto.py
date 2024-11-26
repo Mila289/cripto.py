@@ -16,5 +16,11 @@ class CryptoApp:
         self.crypto_menu['values'] = crypto_list
         self.crypto_menu.pack(pady=10)
 
+# "Создание кнопки для отправки запроса"
+        self.reques_button=ttk.Button(master, text="Получить курс", command=self.get_crypto_price)
+        self.reques_button.pack()
+
+
+
 
 
