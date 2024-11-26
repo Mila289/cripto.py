@@ -28,6 +28,13 @@ class CryptoApp:
         self.result_text = tk.Text(master, height=1, width=20)
         self.result_text.pack()
 
+# "Реализация получения курса криптовалюты"
+    def get_crypto_price(self):
+
+         root=tk.Tk()
+         app=CryptoApp(root)
+         root.mainloop()
+
 
 
 
