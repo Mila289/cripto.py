@@ -46,8 +46,17 @@ class CryptoApp:
            self.result_text.delete(1.0, tk.END)
            self.result_text.insert(tk.END, "Ошибка при получении данных")
     except requests.exceptions.RequestException as e:
-    self.result_text.delete(1.0, tk.END)
-    self.result_text.insert(tk.END, f"Произошла ошибка: {str(e)}")
+      self.result_text.delete(1.0, tk.END)
+      self.result_text.insert(tk.END, f"Произошла ошибка: {str(e)}")
+
+
+    def show_error_message(self, message):
+        error_window = tk.Toplevel(self.master)
+        error_window.title("Ошибка")
+        label=ttk.Label(error_window, text=message)
+        label.pack(pady=20)
+        close_button=ttk.Button(error_window, text="Закрыть", command=error_window.destroy)
+        close_button.pack()
 
 
          root=tk.Tk()
