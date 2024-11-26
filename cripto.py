@@ -1,7 +1,7 @@
 # "Изучение API CoinGecko"
 # "Создание графического интерфейса пользователя"
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, Label
 
 
 class CryptoApp:
@@ -19,6 +19,12 @@ class CryptoApp:
 # "Создание кнопки для отправки запроса"
         self.reques_button=ttk.Button(master, text="Получить курс", command=self.get_crypto_price)
         self.reques_button.pack()
+
+# "Создание метки для отображения результата"
+        self.result_label = ttk.Label(master, text="Результат:")
+        self.result_label.pack(pady=10)
+
+
 
 
 
